@@ -8,8 +8,6 @@ import './projectCreate.scss'
 import {setCreateProjectMember} from '../../store/actionFactory'
 import {createProject} from '../../api/index'
 
-
-
 class ProjectCreate extends Component {
     constructor(props) {
         super(props);
