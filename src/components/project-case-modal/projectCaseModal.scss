@@ -1,0 +1,13 @@
+.project-case-body {
+    width: 100%;
+    height: 400px;
+    .project-case-body-left {
+        float: left;
+        width: 60%;
+    }
+
+    .project-case-body-right {
+        float: left;
+        width: 40%;
+    }
+}

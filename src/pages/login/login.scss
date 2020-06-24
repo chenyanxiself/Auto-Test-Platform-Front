@@ -1,0 +1,29 @@
+.login {
+    height          : 100%;
+    width           : 100%;
+    background-image: url('./bg.jpeg');
+    background-size : 100% 100%;
+    display         : inline-block;
+
+    .login-content {
+        width           : 400px;
+        height          : 300px;
+        background-color: rgba(255, 255, 255, 0.3);
+        margin          : auto auto;
+        margin-top      : 150px;
+        padding         : 20px 40px;
+
+        h2 {
+            font-size    : 30px;
+            text-align   : center;
+            font-weight  : bolder;
+            margin-bottom: 20px;
+        }
+
+        .login-form {
+            .login-form-button {
+                width: 100%;
+            }
+        }
+    }
+}

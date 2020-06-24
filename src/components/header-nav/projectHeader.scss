@@ -1,0 +1,18 @@
+.project-header{
+    width: 100%;
+    .project-header-menus{
+        width: 80%;
+        float: left;
+    }
+    .project-header-user{
+        float: right;
+        .project-header-user-avatar{
+            background-color: #fde3cf;
+            color: #f56a00;
+            cursor          : default;
+            :hover {
+                opacity: 0.4;
+            }
+        }
+    }
+}
