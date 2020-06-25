@@ -1,12 +1,9 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import ProjectImgUpload from '../project-img-upload/ProjectImgUpload'
-import { Form, Input, Button, Modal, Avatar, Tooltip,message } from 'antd'
-import { PlusOutlined } from '@ant-design/icons';
-import MemberTransfer from '../../components/member-transfer/MemberTransfer'
-import { connect } from 'react-redux'
-import './projectCreate.scss'
-import {setCreateProjectMember} from '../../store/actionFactory'
+import {Form, Input, Button, message} from 'antd'
+import {connect} from 'react-redux'
 import {createProject} from '../../api/index'
+import ProjectMember from '../project-member/ProjectMember'
 
 class ProjectCreate extends Component {
     constructor(props) {
@@ -16,24 +13,21 @@ class ProjectCreate extends Component {
         }
         this.memberRef = React.createRef()
     }
+
     handleSubmit = async (value) => {
-        const projectMember = this.props.projectMember.map(item=>{
+        const projectMember = value.projectMember.map(item => {
             return item.id
         })
-        const projectImg = this.props.projectImg
-        const res = await createProject({...value,projectImg,projectMember})
-        if(res.status===1){
+        const res = await createProject({...value, projectMember})
+        if (res.status === 1) {
             message.success('新建项目成功')
             this.props.closeModal()
             this.props.reloadData()
-        }else{
-            message.warning('新建项目失败'+res.error)
+        } else {
+            message.warning('新建项目失败' + res.error)
         }
     }
-    onMemberTransferClick = () => {
-        this.props.setCreateProjectMember(this.memberRef.current.getSelectedMember())
-        this.setState({ isMemberModalVisible: false })
-    }
+
     render() {
         const formItemLayout = {
             labelCol: {
@@ -49,13 +43,21 @@ class ProjectCreate extends Component {
                     {...formItemLayout}
                     onFinish={this.handleSubmit}
                     name='projectForm'
+                    initialValues={{
+                        projectMember: [{
+                            id: this.props.user.id,
+                            cname: this.props.user.cname,
+                            briefName: this.props.user.cname.substring(this.props.user.cname.length - 2, this.props.user.cname.length),
+                            disabled: true,
+                        }]
+                    }}
                 >
                     <Form.Item
                         name='projectName'
                         label='项目名称'
-                        rules={[{ required: true, message: '必填' }]}
+                        rules={[{required: true, message: '必填'}]}
                     >
-                        <Input placeholder='请输入项目名称' autoComplete="off"></Input>
+                        <Input placeholder='请输入项目名称' autoComplete="off"/>
                     </Form.Item>
                     <Form.Item
                         name='projectDesc'
@@ -64,48 +66,27 @@ class ProjectCreate extends Component {
                         <Input.TextArea
                             placeholder='请输入项目简介'
                             allowClear={true}
-                            autoSize={{minRows:4,maxRows:6}}
+                            autoSize={{minRows: 4, maxRows: 6}}
                             maxLength={200}
                         />
                     </Form.Item>
                     <Form.Item
                         label='项目成员'
+                        name='projectMember'
                     >
-                        <div style={{ alignItems: 'center', display: 'flex' }}>
-                            {this.props.projectMember.map((item,index) => {
-                               return ( <Tooltip title={item.cname} key={index+1}>
-                                    <Avatar
-                                        className='project-create-form-member-avatar'
-                                    >{item.briefName}</Avatar>
-                                </Tooltip>)
-                            })}
-                            <Button
-                                style={{ float: "left" }}
-                                shape='circle'
-                                icon={<PlusOutlined />}
-                                size='small'
-                                onClick={() => this.setState({ isMemberModalVisible: true })}
-                            />
-                        </div>
+                        <ProjectMember/>
                     </Form.Item>
                     <Form.Item
                         label='项目封面'
+                        name='projectImg'
                     >
-                        <ProjectImgUpload />
+                        <ProjectImgUpload/>
                     </Form.Item>
-                    <Form.Item wrapperCol={{ offset: 10 }}>
+                    <Form.Item wrapperCol={{offset: 10}}>
                         <Button type='primary' htmlType="submit">确认新建</Button>
                     </Form.Item>
                 </Form>
-                <Modal
-                    visible={this.state.isMemberModalVisible}
-                    onCancel={() => this.setState({ isMemberModalVisible: false })}
-                    centered={true}
-                    destroyOnClose={true}
-                    onOk={this.onMemberTransferClick}
-                >
-                    <MemberTransfer ref={this.memberRef}/>
-                </Modal>
+
             </div>
         );
     }
@@ -113,9 +94,7 @@ class ProjectCreate extends Component {
 
 export default connect(
     state => ({
-        projectImg: state.createProject.projectImg,
-        projectMember: state.createProject.projectMember,
         user: state.user
     }),
-    {setCreateProjectMember}
+    null
 )(ProjectCreate);

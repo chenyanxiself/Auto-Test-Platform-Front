@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { Upload, Modal, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { uploadProjectImgApi,delProjectImgApi } from '../../api/index'
-import {connect} from 'react-redux'
-import {setCreateProjectImg,delCreateProjectImg} from '../../store/actionFactory'
+
 function getBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -25,7 +24,6 @@ class PicturesWall extends Component {
   }
 
   handleCancel = () => {
-    this.props.delCreateProjectImg()
     this.setState({ previewVisible: false })
   };
 
@@ -47,7 +45,7 @@ class PicturesWall extends Component {
       let targetFileInFileList = fileList.find(file => file.uid === fileUid)
       targetFileInFileList.name = file.response.data.fileName
       targetFileInFileList.url = file.response.data.url
-      this.props.setCreateProjectImg(targetFileInFileList.url)
+      this.props.onChange(targetFileInFileList.url)
       message.success('上传图片成功')
     } else if (file.status === 'error') {
       this.setState({fileList:[]})
@@ -63,7 +61,7 @@ class PicturesWall extends Component {
       this.setState({
         fileList: []
       })
-      this.props.delCreateProjectImg()
+      this.props.onChange(null)
       return true
     }else{
       message.error('删除图片失败: '+res.error)
@@ -113,7 +111,4 @@ class PicturesWall extends Component {
   }
 }
 
-export default connect(
-  null,
-  {setCreateProjectImg,delCreateProjectImg}
-)(PicturesWall)
+export default PicturesWall;

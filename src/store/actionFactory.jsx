@@ -7,26 +7,6 @@ export const setCurrentUser = (user)=>({
 })
 
 
-export const setCreateProjectImg = (url)=>({
-    type:actionType.SET_CREATE_PROJECT_IMG,
-    url
-})
-
-export const delCreateProjectImg = ()=>({
-    type:actionType.DEL_CREATE_PROJECT_IMG,
-})
-
-export const setCreateProjectMember = (projectMember)=>({
-    type:actionType.SET_CREATE_PROJECT_MEMBER,
-    projectMember
-})
-
-export const delCreateProjectMember = ()=>({
-    type:actionType.DEL_CREATE_PROJECT_MEMBER,
-})
-
-
-
 
 // export const logout=() =>{
 //     return dispatch=>{

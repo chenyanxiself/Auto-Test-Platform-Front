@@ -2,7 +2,7 @@ import axios from 'axios'
 import { message } from 'antd'
 import storeageUtil,{key} from '../util/storeageUtil'
 const instance = axios.create({
-    baseURL: `http://192.168.99.7:8900/api/v1`,
+    baseURL: `http://localhost:8900/api/v1`,
     timeout: 20000,
     headers: {'Content-Type': 'application/json'},
 });

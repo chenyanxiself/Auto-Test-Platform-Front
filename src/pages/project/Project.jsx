@@ -2,14 +2,8 @@ import React, { Component } from 'react';
 import { Card, Button, Pagination, Modal, message } from 'antd'
 import { PlusOutlined } from '@ant-design/icons';
 import Title from '../../components/project-title/ProjectTitle'
-import { connect } from 'react-redux'
 import './project.scss'
 import ProjectCreate from '../../components/project-create/ProjectCreate'
-import {
-    delCreateProjectImg,
-    delCreateProjectMember,
-    setCreateProjectMember,
-} from '../../store/actionFactory'
 import { getAllProject } from '../../api/index'
 class Project extends Component {
     constructor(props) {
@@ -48,12 +42,6 @@ class Project extends Component {
         })
     }
     onCreateClick = () => {
-        let initMember = {
-            id: this.props.user.id,
-            cname: this.props.user.cname,
-            briefName: this.props.user.cname.substring(this.props.user.cname.length - 2, this.props.user.cname.length)
-        }
-        this.props.setCreateProjectMember([initMember])
         this.setState({ isModalVisible: true })
     }
     pageChange = (page) => {
@@ -61,8 +49,6 @@ class Project extends Component {
     }
     onCancel = () => {
         this.setState({ isModalVisible: false })
-        this.props.delCreateProjectImg()
-        this.props.delCreateProjectMember()
     }
     render() {
         const extra = (
@@ -133,13 +119,4 @@ class Project extends Component {
     }
 }
 
-export default connect(
-    state => ({
-        user: state.user,
-    }),
-    {
-        delCreateProjectImg,
-        delCreateProjectMember,
-        setCreateProjectMember,
-    }
-)(Project);
+export default Project
