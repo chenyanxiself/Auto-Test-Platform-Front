@@ -14,7 +14,9 @@ const urls = {
     createProjectApiCaseUrl:'/project/createProjectApiCase/',
     updateProjectApiCaseUrl:'/project/updateProjectApiCase/',
     getApiCaseByConditionUrl:'/project/getApiCaseByCondition/',
-    deleteApiCaseByIdUrl:'/project/deleteApiCaseById/'
+    deleteApiCaseByIdUrl:'/project/deleteApiCaseById/',
+    updatePasswordUrl:'/user/updatePassword',
+    updateUserInfoUrl:'/user/updateUserInfo'
 }
 
 export const loginApi = (data) => {
@@ -23,6 +25,24 @@ export const loginApi = (data) => {
         password: data.password
     }
     return instance.post(urls.loginUrl, postData)
+}
+//修改密码
+export const updatePassword = (oldPwd,newPwd)=>{
+    const postData = {
+        old_password:oldPwd,
+        new_password:newPwd
+    }
+    return instance.post(urls.updatePasswordUrl, postData)
+}
+
+//修改用户信息
+export const updateUserInfo = (data)=>{
+    const postData = {
+        user_cname:data.cname,
+        email:data.email,
+        phone:data.phone
+    }
+    return instance.post(urls.updateUserInfoUrl, postData)
 }
 
 export const getCurrentUser = () => {

@@ -14,12 +14,12 @@ class App extends Component {
                     {
                         baseRoute.map((item, index) => {
                             return (
-                                <Route key={index + 1} path={item.path} component={item.component} exact={item.exact}></Route>
+                                <Route key={index + 1} path={item.path} component={item.component} exact={item.exact} />
                             )
                         })
                     }
                     {/* 若上面路由全都匹配不到时,重定向到首页 */}
-                    <Redirect to='/'></Redirect>
+                    <Redirect to='/' />
                 </Switch>
             </BrowserRouter>
         );

@@ -7,6 +7,7 @@ import ProjectSetting from '../pages/project/ProjectSetting'
 import WorkStation from '../pages/workStation/WorkStation'
 import UserManage from '../pages/manage/UserManage'
 // import RoleManage from '../pages/manage/RoleManage'
+import User from '../pages/user/User'
 export default [
     {
         path:'/project/:id/overview',
@@ -53,4 +54,9 @@ export default [
     //     exact:true,
     //     component:RoleManage
     // },
+    {
+        path:'/user/info',
+        exact:true,
+        component:User
+    },
 ]

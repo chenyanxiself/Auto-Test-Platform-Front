@@ -8,7 +8,6 @@ import { connect } from 'react-redux'
 import LinkButton from '../../components/link-button/LinkButton'
 import storeageUtil,{key} from '../../util/storeageUtil'
 
-
 class ProjectHeader extends Component {
     constructor(props) {
         super(props);
@@ -27,13 +26,19 @@ class ProjectHeader extends Component {
         storeageUtil.remove(key.TOKEN)
         this.props.history.push('/login/')
     }
+    handleUserInfo=()=>{
+        this.props.history.push(`/user/info`)
+    }
     render() {
         let selectedItem = projectMenuList.find(item => (item.regExp.test(this.props.history.location.pathname)))
-        let isShowMenu = selectedItem ? true : false
+        let isShowMenu = !!selectedItem
         let key = selectedItem ? [selectedItem.path] : []
         let cname = this.props.user.cname
         const content = (
-            <LinkButton onClick={this.logout}>退出</LinkButton>
+            <div>
+                <LinkButton onClick={this.handleUserInfo} className='project-header-user-button'>个人信息</LinkButton>
+                <LinkButton onClick={this.logout} className='project-header-user-button'>退出</LinkButton>
+            </div>
         )
         return (
             <div className='project-header'>

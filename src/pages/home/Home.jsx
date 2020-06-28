@@ -24,16 +24,16 @@ class Home extends Component {
         return (
             <Layout style={{ height: '100%' }}>
                 <Sider>
-                    <Left></Left>
+                    <Left />
                 </Sider>
                 <Layout>
                     <Header style={{ backgroundColor: 'white' }}>
-                        <ProjectHeader></ProjectHeader>
+                        <ProjectHeader />
                     </Header>
                     <Content style={{ margin: '20px', backgroundColor: '#fff', padding: '10px 10px' }}>
                         <Switch>
                             {/* 必须加exact */}
-                            <Redirect from='/' to='/overview' exact></Redirect>
+                            <Redirect from='/' to='/overview' exact />
                             {
                                 homeRoute.map((item, index) => {
                                     return (
@@ -42,11 +42,11 @@ class Home extends Component {
                                             path={item.path}
                                             component={item.component}
                                             exact={item.exact}
-                                        ></Route>
+                                         />
                                     )
                                 })
                             }
-                            <Redirect to='/overview'></Redirect>
+                            <Redirect to='/overview' />
                         </Switch>
                     </Content>
                     <Footer style={{ textAlign: "center" }}>底部待修改</Footer>
