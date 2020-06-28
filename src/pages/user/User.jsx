@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import {Form, Input, Button, Card, Modal, message} from 'antd'
+import {Form, Input, Button, Card, Modal, message, PageHeader} from 'antd'
 import './user.scss'
 import {connect} from 'react-redux'
 import {updatePassword, updateUserInfo} from '../../api/index'
+import {setCurrentUser} from '../../store/actionFactory'
 
 class User extends Component {
     constructor(props) {
@@ -19,19 +20,19 @@ class User extends Component {
             message.success('修改成功')
             this.props.setCurrentUser({
                 ...this.props.user,
-                cname:value.cname,
-                email:value.email,
-                phone:value.phone
+                cname: value.cname,
+                email: value.email,
+                phone: value.phone
             })
         } else {
             message.warning(res.error)
         }
     }
     changePwdOnFinish = async (value) => {
-        // console.log(value)
         const res = await updatePassword(value.oldPassword, value.newPassword)
         if (res.status === 1) {
             message.success('修改成功')
+            this.setState({isModalVisible:false})
         } else {
             message.warning(res.error)
         }
@@ -49,7 +50,13 @@ class User extends Component {
         return (
             <div>
                 <Card
-                    title={<span style={{fontSize: 18, fontWeight: 500}}>个人中心</span>}
+                    title={
+                        <PageHeader
+                            onBack={() => this.props.history.goBack()}
+                            title="个人信息"
+                            subTitle="修改个人信息"
+                        />
+                    }
                     bordered={false}
                 >
                     <Form
@@ -175,5 +182,5 @@ class User extends Component {
 
 export default connect(
     state => ({user: state.user}),
-    null
+    {setCurrentUser}
 )(User);
