@@ -128,8 +128,8 @@ class EditableTable extends React.Component {
         return this.state.dataSource.map(item => {
             return { arg: item.arg, value: item.value }
         })
-
     }
+
     handleDelete = key => {
         const dataSource = [...this.state.dataSource];
         this.setState({
@@ -141,7 +141,7 @@ class EditableTable extends React.Component {
         const { count, dataSource } = this.state;
         const newData = {
             key: count,
-            arg: 'new header',
+            arg: 'new arg',
             value: 'new value',
         };
         this.setState({

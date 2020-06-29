@@ -1,51 +1,58 @@
-import React, { Component } from 'react';
-import { Menu } from 'antd';
+import React, {Component} from 'react';
+import {Menu} from 'antd';
 import menuList from '../../util/menuList'
-import { withRouter } from 'react-router-dom';
-const { SubMenu } = Menu;
+import {withRouter} from 'react-router-dom';
+
+const {SubMenu} = Menu;
 
 class Menus extends Component {
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = this.init()
     }
-    init=()=>{
+
+    init = () => {
         const pathname = this.props.history.location.pathname
-        return menuList.reduce((pre,cur)=>{
-            if(cur.childMenu.length>0){
+        return menuList.reduce((pre, cur) => {
+            if (cur.childMenu.length > 0) {
                 pre.rootSubmenuKeys.push(cur.path)
-                const isSelected = cur.childMenu.find(item=>item.regExp.test(pathname))
-                if(isSelected){
+                const isSelected = cur.childMenu.find(item => item.regExp.test(pathname))
+                if (isSelected) {
                     pre.openKeys.push(cur.path)
                     pre.selectedKeys.push(isSelected.path)
                 }
-            }else{
-                if(cur.regExp.test(pathname)){
+            } else {
+                if (cur.regExp.test(pathname)) {
                     pre.selectedKeys.push(cur.path)
                 }
             }
             return pre
-        },{
-            selectedKeys:[],
+        }, {
+            selectedKeys: [],
             openKeys: [],
-            rootSubmenuKeys:[]
+            rootSubmenuKeys: []
         });
-    }
+    };
+
     onOpenChange = openKeys => {
         const latestOpenKey = openKeys.find(key => this.state.openKeys.indexOf(key) === -1);
         if (this.state.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
-            this.setState({ openKeys });
+            this.setState({openKeys});
         } else {
             this.setState({
                 openKeys: latestOpenKey ? [latestOpenKey] : [],
             });
         }
     };
-    onMenuClick=(item)=>{
+
+    onMenuClick = (item) => {
         let {key, keyPath} = item
-        this.setState({selectedKeys:keyPath})
-        this.props.history.push(key)
-    }
+        if (key !== this.props.history.location.pathname) {
+            this.setState({selectedKeys: keyPath})
+            this.props.history.push(key)
+        }
+    };
+
     render() {
         return (
             <Menu
