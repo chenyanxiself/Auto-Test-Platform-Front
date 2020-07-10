@@ -11,11 +11,12 @@
 
         .project-case-card-title-input {
             width : 150px;
-            margin: 0px 10px;
+            margin: 0 10px;
         }
     }
 
     .project-case-card-body-table {
+        height: 100%;
         .project-case-card-body-table-action {
             button {
                 margin-left: 10px;

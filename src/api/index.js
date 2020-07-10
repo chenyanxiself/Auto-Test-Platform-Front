@@ -16,7 +16,13 @@ const urls = {
     getApiCaseByConditionUrl:'/project/getApiCaseByCondition/',
     deleteApiCaseByIdUrl:'/project/deleteApiCaseById/',
     updatePasswordUrl:'/user/updatePassword',
-    updateUserInfoUrl:'/user/updateUserInfo'
+    updateUserInfoUrl:'/user/updateUserInfo',
+    getSuiteByProjectIdUrl:'/project/getSuiteByProjectId',
+    getSuiteInfoByIdUrl:'/project/getSuiteInfoById',
+    createSuiteUrl:'/project/createSuite',
+    deleteSuiteUrl:'/project/deleteSuite',
+    updateSuiteCaseRelationUrl:'/project/updateSuiteCaseRelation',
+    updateSuiteCaseSortUrl:'/project/updateSuiteCaseSort',
 }
 
 export const loginApi = (data) => {
@@ -151,4 +157,40 @@ export const updateProjectApiCase = (data) => {
         project_id:data.projectId,
     }
     return instance.post(urls.updateProjectApiCaseUrl, postData)
+}
+
+export const getSuiteByProjectId = (projectId) => {
+    return instance.get(urls.getSuiteByProjectIdUrl,{params:{project_id:projectId}})
+}
+
+
+export const getSuiteInfoById = (id,projectId) => {
+    return instance.get(urls.getSuiteInfoByIdUrl,{params:{id,project_id:projectId}})
+}
+
+export const createSuite = (projectId,suiteName) => {
+    return instance.post(urls.createSuiteUrl,{project_id:projectId,suite_name:suiteName})
+}
+
+export const deleteSuite = (suiteId) => {
+    return instance.post(urls.deleteSuiteUrl,{suite_id:suiteId})
+}
+
+export const updateSuiteCaseRelation = (suiteId,projectId,caseIdList) => {
+    const postData = {
+        suite_id:suiteId,
+        project_id:projectId,
+        case_id_list:caseIdList
+    }
+    return instance.post(urls.updateSuiteCaseRelationUrl,postData)
+}
+
+export const updateSuiteCaseSort = (projectId,suiteId,beforeId,afterId) => {
+    const postData = {
+        project_id:projectId,
+        suite_id:suiteId,
+        before_id:beforeId,
+        after_id:afterId
+    }
+    return instance.post(urls.updateSuiteCaseSortUrl,postData)
 }

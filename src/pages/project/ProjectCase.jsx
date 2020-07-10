@@ -18,7 +18,6 @@ class ProjectCase extends Component {
         this.PCMRef = React.createRef()
         this.state = {
             selectMethod: 0,
-            // selectSuite: '0',
             searchKeyword: '',
             total: 0,
             isLoading: false,
@@ -27,7 +26,7 @@ class ProjectCase extends Component {
             currentCase: {},
             data: [],
         }
-        this.pageSize = 2
+        this.pageSize = 8
         this.columns = this.initeColumns()
     }
     initeColumns = () => (
@@ -45,11 +44,11 @@ class ProjectCase extends Component {
             },
             {
                 title: '请求方式',
-                width: '6%',
+                width: '7%',
                 dataIndex: 'requestMehod',
                 ellipsis:true,
                 render: (method) => {
-                    let methodToStr=''
+                    let methodToStr
                     if (method === 1) {
                         methodToStr = 'Get'
                     } else if (method === 2) {
@@ -64,7 +63,7 @@ class ProjectCase extends Component {
             },
             {
                 title: '用例名称',
-                width: '10%',
+                width: '14%',
                 dataIndex: 'caseName',
                 ellipsis:true,
                 render: (name) => {
@@ -74,14 +73,8 @@ class ProjectCase extends Component {
                 }
             },
             {
-                title: '测试集',
-                width: '8%',
-                dataIndex: 'testSuite',
-                ellipsis:true,
-            },
-            {
                 title: '请求域名',
-                width: '15%',
+                width: '18%',
                 dataIndex: 'requestHost',
                 ellipsis:true,
                 render: (host) => {
@@ -256,16 +249,6 @@ class ProjectCase extends Component {
                     <Select.Option value={1}>Get</Select.Option>
                     <Select.Option value={2}>Post</Select.Option>
                 </Select>
-                {/* <Select
-                    value={this.state.selectSuite}
-                    className='project-case-card-title-select-suite'
-                    onChange={(value) => { this.setState({ selectSuite: value }) }}
-                    bordered={false}
-                >
-                    <Select.Option value='0'>全部</Select.Option>
-                    <Select.Option value='1'>driver</Select.Option>
-                    <Select.Option value='2'>test</Select.Option>
-                </Select> */}
                 <Input
                     placeholder='请输入关键字'
                     className='project-case-card-title-input'
@@ -273,7 +256,7 @@ class ProjectCase extends Component {
                     onChange={(e) => { this.setState({ searchKeyword: e.target.value }) }}
                     onPressEnter={() => { this.getData(1) }}
                     allowClear={true}
-                ></Input>
+                />
                 <Button
                     type='primary'
                     onClick={() => { this.getData(1) }}
@@ -285,11 +268,17 @@ class ProjectCase extends Component {
                 type='primary'
                 icon={<PlusOutlined />}
                 onClick={() => { this.setState({ isModalVisible: true, currentCase: {} }) }}
-            ></Button>
+            />
         )
         return (
             <React.Fragment>
-                <Card title={title} extra={extra} bordered={false} className='project-case-card'>
+                <Card
+                    title={title}
+                    extra={extra}
+                    bordered={false}
+                    className='project-case-card'
+                    bodyStyle={{height:'100%'}}
+                >
                     <Table
                         className='project-case-card-body-table'
                         dataSource={this.state.data}
@@ -317,7 +306,7 @@ class ProjectCase extends Component {
                     destroyOnClose={true}
                     onOk={this.onOk}
                     centered={true}
-                    bodyStyle={{ height: 520 }}
+                    bodyStyle={{ height: 480 }}
                 >
                     <ProjectCaseModal
                         ref={this.PCMRef}

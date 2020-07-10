@@ -1,0 +1,33 @@
+.project-suite{
+  .project-suite-left{
+    float: left;
+    margin: auto 10px;
+    width: 35%;
+    height: 100%;
+  }
+  .project-suite-right{
+    float: left;
+    margin: auto 10px;
+    width: 60%;
+    height: 100%;
+    .project-suite-right-search{
+      width: 150px;
+      margin-right: 15px;
+    }
+    .project-suite-right-search-button{
+
+    }
+  }
+}
+
+.drop-over-downward{
+  td{
+    border-bottom: 2px dashed #1890ff !important;
+  }
+}
+
+.drop-over-upward{
+  td{
+    border-top: 2px dashed #1890ff !important;
+  }
+}

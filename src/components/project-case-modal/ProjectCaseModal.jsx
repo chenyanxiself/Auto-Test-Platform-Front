@@ -68,7 +68,6 @@ class ProjectCaseModal extends Component {
                         initialValues={
                             {
                                 caseName: this.initValue.caseName,
-                                testSuite: this.initValue.testSuite,
                                 requestMehod: this.initValue.requestMehod,
                                 requestPath: this.initValue.requestPath,
                                 requestHost: this.initValue.requestHost,
@@ -83,13 +82,7 @@ class ProjectCaseModal extends Component {
                             label='用例名称'
                             rules={[{ required: true, message: '必填' }]}
                         >
-                            <Input placeholder='请输入用例名称' autoComplete="off"></Input>
-                        </Form.Item>
-                        <Form.Item
-                            name='testSuite'
-                            label='测试集'
-                        >
-                            <div>TODO</div>
+                            <Input placeholder='请输入用例名称' autoComplete="off"/>
                         </Form.Item>
                         <Form.Item
                             name='requestMehod'
@@ -113,7 +106,7 @@ class ProjectCaseModal extends Component {
                             label='请求路径'
                             rules={[{ required: true, message: '必填' }]}
                         >
-                            <Input placeholder='请输入请求地址' autoComplete="off"></Input>
+                            <Input placeholder='请输入请求地址' autoComplete="off"/>
                         </Form.Item>
                         <Form.Item
                             name='requestHost'

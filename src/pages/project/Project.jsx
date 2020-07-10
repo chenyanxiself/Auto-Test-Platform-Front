@@ -65,7 +65,7 @@ class Project extends Component {
                     extra={extra}
                     bordered={false}
                     loading={this.state.isLoading}
-                    bodyStyle={{ height: '80%', overflowY: 'scroll' }}
+                    bodyStyle={{ height: '80%' }}
                 >
                     {pagedProjectList.reduce((pre, cur) => {
                         pre.push(

@@ -8,7 +8,7 @@ import homeRoute from '../../route/homeRoute'
 import { getCurrentUser } from '../../api/index'
 import {connect} from 'react-redux'
 import {setCurrentUser} from '../../store/actionFactory'
-const { Footer, Sider, Content, Header } = Layout;
+const { Sider, Content, Header } = Layout;
 class Home extends Component {
     constructor(props) {
         super(props);
@@ -30,7 +30,12 @@ class Home extends Component {
                     <Header style={{ backgroundColor: 'white' }}>
                         <ProjectHeader />
                     </Header>
-                    <Content style={{ margin: '20px', backgroundColor: '#fff', padding: '10px 10px' }}>
+                    <Content style={{
+                        margin: '20px',
+                        backgroundColor: '#fff',
+                        padding: '10px 10px' ,
+                        overflowY:'scroll'
+                    }}>
                         <Switch>
                             {/* 必须加exact */}
                             <Redirect from='/' to='/overview' exact />
@@ -49,7 +54,6 @@ class Home extends Component {
                             <Redirect to='/overview' />
                         </Switch>
                     </Content>
-                    <Footer style={{ textAlign: "center" }}>底部待修改</Footer>
                 </Layout>
             </Layout>
         );

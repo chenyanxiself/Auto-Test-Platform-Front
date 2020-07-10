@@ -8,7 +8,7 @@ class Host extends Component {
         super(props);
         this.onChange = this.props.onChange
         this.initValue = this.props.value
-        this.isUpdate = this.initValue?true:false
+        this.isUpdate = !!this.initValue
         this.state = {
             isUseEnv: this.isUpdate?this.initValue.isUseEnv:true,
             requestHost: this.isUpdate?this.initValue.requestHost:undefined,
