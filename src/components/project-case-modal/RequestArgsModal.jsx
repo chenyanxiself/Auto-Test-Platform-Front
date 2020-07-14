@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Modal } from 'antd';
-import { PlusOutlined } from '@ant-design/icons'
+import { EditOutlined } from '@ant-design/icons'
 import RequestArgs from './RequestArgs'
 class RequestArgsModal extends Component {
     constructor(props) {
@@ -29,14 +29,14 @@ class RequestArgsModal extends Component {
     render() {
         return (
             <div>
-                <Button icon={<PlusOutlined />} shape='round' size='small' onClick={() => this.setState({ isModalVisible: true })} />
+                <Button icon={<EditOutlined />} shape='circle' onClick={() => this.setState({ isModalVisible: true })} />
                 <Modal
                     onCancel={this.onCancel}
                     visible={this.state.isModalVisible}
                     onOk={this.onOk}
                     destroyOnClose={true}
                 >
-                    <RequestArgs ref={this.requestArgsRef} initValue={this.props.value}></RequestArgs>
+                    <RequestArgs ref={this.requestArgsRef} initValue={this.props.value}/>
                 </Modal>
             </div>
         );

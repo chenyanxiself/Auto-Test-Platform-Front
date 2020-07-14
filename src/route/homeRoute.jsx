@@ -2,7 +2,8 @@ import Project from '../pages/project/Project'
 import ProjectCase from '../pages/project/ProjectCase'
 import ProjectSuite from '../pages/project/ProjectSuite'
 import ProjectOverview from '../pages/project/ProjectOverview'
-import ProjectEnv from '../pages/project/ProjectEnv'
+import ProjectReport from '../pages/project/ProjectReport.jsx'
+import ProjectReportDetail from '../pages/project/ProjectReportDetail'
 import ProjectSetting from '../pages/project/ProjectSetting'
 import WorkStation from '../pages/workStation/WorkStation'
 import UserManage from '../pages/manage/UserManage'
@@ -25,9 +26,14 @@ export default [
         component:ProjectSuite
     },
     {
-        path:'/project/:id/envSetting',
+        path:'/project/:id/testReport',
         exact:true,
-        component:ProjectEnv
+        component:ProjectReport
+    },
+    {
+        path:'/project/:id/testReport/:reportId/detail',
+        exact:true,
+        component:ProjectReportDetail
     },
     {
         path:'/project/:id/projectSetting',

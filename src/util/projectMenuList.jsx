@@ -27,9 +27,9 @@ export default [
         icon:<BookOutlined />
     },
     {
-        name:'环境配置',
-        path:'/project/:id/envSetting',
-        regExp:/^\/project\/\d+\/envSetting\/?$/,
+        name:'测试报告',
+        path:'/project/:id/testReport',
+        regExp:/^\/project\/\d+\/testReport\/?/,
         icon:<EnvironmentOutlined />
     },
     {

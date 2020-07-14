@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Card, Button, Menu, Modal, message, Table} from 'antd'
+import {Card, Button, Menu, Modal, message, Table, Form, Checkbox} from 'antd'
 import './projectSuite.scss'
 import ProjectSuiteModifyModal from "../../components/project-suite/ProjectSuiteModifyModal";
 import {
@@ -8,14 +8,17 @@ import {
     createSuite,
     deleteSuite,
     updateSuiteCaseRelation,
-    updateSuiteCaseSort
+    updateSuiteCaseSort,
+    executeSuite
 } from '../../api'
 import ProjectSuiteCreateModal from '../../components/project-suite/ProjectSuiteCreateModal'
-import {ExclamationCircleOutlined} from '@ant-design/icons';
+import {ExclamationCircleOutlined, PlayCircleOutlined} from '@ant-design/icons';
 import {HTML5Backend} from 'react-dnd-html5-backend'
 import update from 'immutability-helper';
 import {component} from '../../components/project-suite/DndComponent'
 import {DndProvider} from 'react-dnd'
+import RequestArgsModal from '../../components/project-case-modal/RequestArgsModal'
+import Host from "../../components/project-case-modal/Host";
 
 const {confirm} = Modal
 
@@ -51,6 +54,7 @@ class ProjectSuite extends Component {
         this.state = {
             isSuiteModifyModalVisible: false,
             isSuiteCreateModalVisible: false,
+            isCaseExecuteModalVisible: false,
             isLeftCardLoading: false,
             isRightCardLoading: false,
             suiteList: [],
@@ -176,12 +180,21 @@ class ProjectSuite extends Component {
         const beforeId = this.state.dataSource[dragIndex].id
         const afterId = this.state.dataSource[hoverIndex].id
         const res = await updateSuiteCaseSort(this.projectId, this.state.currentSuite.suiteId, beforeId, afterId)
-        if (res.status===1){
+        if (res.status === 1) {
             this.setState({dataSource: newDataSource});
-        }else {
+        } else {
             message.warning(res.error)
         }
     };
+    onExecute = async (value) => {
+        const res = await executeSuite(this.projectId,this.state.currentSuite.suiteId,value)
+        if (res.status===1){
+            message.success('请在测试报告页面查看结果')
+            this.setState({isCaseExecuteModalVisible:false})
+        }else {
+            message.warning(res.error)
+        }
+    }
 
     render() {
         const suiteExtra = (
@@ -208,7 +221,23 @@ class ProjectSuite extends Component {
                 >删除</Button>
             </div>
         )
-
+        const caseExtra = (
+            <Button
+                type={"primary"}
+                icon={<PlayCircleOutlined/>}
+                disabled={!this.state.currentSuite.suiteId || this.state.currentSuite.relation.length === 0}
+                onClick={() => this.setState({isCaseExecuteModalVisible: true})}
+            >
+                执行
+            </Button>
+        )
+        const layout = {
+            labelCol: { span: 6 },
+            wrapperCol: { span: 16 },
+        };
+        const tailLayout = {
+            wrapperCol: { offset: 6, span: 14 },
+        };
         return (
             <div className={'project-suite'} style={{height: '100%'}}>
                 <Card
@@ -237,21 +266,23 @@ class ProjectSuite extends Component {
                     headStyle={{height: 70}}
                     bodyStyle={{paddingLeft: 0, paddingRight: 0}}
                     loading={this.state.isRightCardLoading}
+                    extra={caseExtra}
                 >
-                    {<DndProvider backend={HTML5Backend}>
-                        <Table
-                            columns={columns}
-                            dataSource={this.state.dataSource}
-                            components={component}
-                            pagination={false}
-                            rowKey={'id'}
-                            showHeader={false}
-                            onRow={(record, index) => ({
-                                index,
-                                moveRow: this.moveRow,
-                            })}
-                        />
-                    </DndProvider>}
+                    {!this.state.currentSuite.suiteId || this.state.currentSuite.relation.length === 0 ? null :
+                        <DndProvider backend={HTML5Backend}>
+                            <Table
+                                columns={columns}
+                                dataSource={this.state.dataSource}
+                                components={component}
+                                pagination={false}
+                                rowKey={'id'}
+                                showHeader={false}
+                                onRow={(record, index) => ({
+                                    index,
+                                    moveRow: this.moveRow,
+                                })}
+                            />
+                        </DndProvider>}
                 </Card>
                 <Modal
                     visible={this.state.isSuiteModifyModalVisible}
@@ -272,6 +303,54 @@ class ProjectSuite extends Component {
                     onOk={this.onCreateOK}
                 >
                     <ProjectSuiteCreateModal ref={this.createRef}/>
+                </Modal>
+                <Modal
+                    visible={this.state.isCaseExecuteModalVisible}
+                    onCancel={() => this.setState({isCaseExecuteModalVisible: false})}
+                    destroyOnClose={true}
+                    title={'执行测试集'}
+                    footer={null}
+                    width={600}
+                >
+                    <Form
+                        {...layout}
+                        onFinish={this.onExecute}
+                        labelAlign={"left"}
+                        initialValues={{
+                            isSaveCookie:true,
+                            globalHost:{
+                                isUseEnv:true,
+                                requestHost:undefined,
+                                envHost:undefined
+                            }
+                        }}
+                    >
+                        <Form.Item
+                            label={'全局域名'}
+                            name={'globalHost'}
+                        >
+                            <Host projectId={this.projectId}/>
+                        </Form.Item>
+                        <Form.Item
+                            label={'全局请求头'}
+                            name={'globalHeaders'}
+                        >
+                            <RequestArgsModal />
+                        </Form.Item >
+                        <Form.Item
+                            {...tailLayout}
+                            name="isSaveCookie"
+                            valuePropName="checked"
+                        >
+                            <Checkbox >自动保存Cookie</Checkbox>
+                        </Form.Item>
+                        <Form.Item {...tailLayout}>
+                            <Button
+                                htmlType={"submit"}
+                                type={"primary"}
+                            >提交</Button>
+                        </Form.Item>
+                    </Form>
                 </Modal>
             </div>
         );

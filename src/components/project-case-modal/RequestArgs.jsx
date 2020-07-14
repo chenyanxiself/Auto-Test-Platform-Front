@@ -194,7 +194,7 @@ class EditableTable extends React.Component {
                     }}
                 >
                     添加
-        </Button>
+                </Button>
                 <Table
                     size='small'
                     components={components}
