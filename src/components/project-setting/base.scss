@@ -1,0 +1,33 @@
+
+.project-setting-base-main{
+  display: flex;
+  padding-top: 12px;
+  .project-setting-base-left{
+    min-width: 300px;
+    max-width: 600px;
+  }
+  .project-setting-base-right{
+    flex: 1;
+    padding-left: 104px;
+    .project-setting-base-avatar-title{
+      height: 22px;
+      margin-bottom: 8px;
+      line-height: 22px;
+      font-weight: 700;
+    }
+    .project-setting-base-avatar-img{
+      width: 188px;
+      height: 144px;
+      margin-bottom: 12px;
+      overflow: hidden;
+      img{
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .project-setting-base-avatar-button{
+      width: 144px;
+      text-align: left;
+    }
+  }
+}

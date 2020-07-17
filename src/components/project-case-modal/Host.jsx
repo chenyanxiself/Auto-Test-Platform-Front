@@ -21,7 +21,7 @@ class Host extends Component {
         if(res.status===1){
             this.setState({envSelect:res.data})
         }else{
-            message.warning('获取环境失败: '+res.error)
+            message.warning(res.error)
         }
     }
     triggerChange = changedValue => {

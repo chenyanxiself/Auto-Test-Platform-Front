@@ -72,7 +72,11 @@ class ProjectSuite extends Component {
     getData = async () => {
         this.setState({isLeftCardLoading: true})
         const res = await getSuiteByProjectId(this.projectId)
-        this.setState({suiteList: res.data, isLeftCardLoading: false})
+        if (res.status===1){
+            this.setState({suiteList: res.data, isLeftCardLoading: false})
+        }else {
+            message.warning(res.error)
+        }
     }
 
     componentDidMount() {
@@ -122,7 +126,7 @@ class ProjectSuite extends Component {
                 this.getData({isSuiteModifyModalVisible: false})
                 this.setState({isSuiteCreateModalVisible: false})
             } else {
-                message.warning('新建失败:' + res.error)
+                message.warning( res.error)
             }
         }).catch(e => {
             console.log(e)
@@ -139,7 +143,7 @@ class ProjectSuite extends Component {
             this.getSuiteData(this.state.currentSuite.suiteId)
             this.setState({isSuiteModifyModalVisible: false})
         } else {
-            message.warning('编辑失败: ' + res.error)
+            message.warning( res.error)
         }
     }
 
@@ -149,7 +153,7 @@ class ProjectSuite extends Component {
             icon: <ExclamationCircleOutlined/>,
             maskClosable: true,
             onOk: async () => {
-                const res = await deleteSuite(suiteId)
+                const res = await deleteSuite(suiteId,this.projectId)
                 if (res.status === 1) {
                     message.success('删除成功')
                     this.getData()
@@ -248,9 +252,10 @@ class ProjectSuite extends Component {
                     extra={suiteExtra}
                     loading={this.state.isLeftCardLoading}
                 >
-
                     <Menu
                         onSelect={this.onSuiteSelect}
+                        mode={"inline"}
+                        theme={"light"}
                     >
                         {this.state.suiteList.map(item => {
                             return (

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Modal } from 'antd';
-import { EditOutlined } from '@ant-design/icons'
+import { EditOutlined,PlusOutlined } from '@ant-design/icons'
 import RequestArgs from './RequestArgs'
 class RequestArgsModal extends Component {
     constructor(props) {
@@ -29,7 +29,12 @@ class RequestArgsModal extends Component {
     render() {
         return (
             <div>
-                <Button icon={<EditOutlined />} shape='circle' onClick={() => this.setState({ isModalVisible: true })} />
+                <Button
+                    icon={this.props.value?<EditOutlined />:<PlusOutlined />}
+                    shape='circle'
+                    onClick={() => this.setState({ isModalVisible: true })}
+                    type={this.props.value?"primary":null}
+                />
                 <Modal
                     onCancel={this.onCancel}
                     visible={this.state.isModalVisible}

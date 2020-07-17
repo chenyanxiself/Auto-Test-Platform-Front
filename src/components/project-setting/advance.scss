@@ -1,0 +1,22 @@
+.project-setting-advance-main{
+  height: 100%;
+  font-size: 14px;
+  .project-setting-advance-item{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid #f3f3f3;
+    font-size: 14px;
+    .project-setting-advance-title{
+      font-size: 16px;
+      color: #000000;
+      font-weight: Bold;
+      margin-bottom: 2px;
+    }
+    .project-setting-advance-text{
+      color: #656565;
+    }
+  }
+}

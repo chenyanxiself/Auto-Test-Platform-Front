@@ -1,11 +1,11 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
-import { Table, Input, Button, Form } from 'antd';
+import React, {useContext, useState, useEffect, useRef} from 'react';
+import {Table, Input, Button, Form} from 'antd';
 import LinkButton from '../link-button/LinkButton'
 import './requestArgs.scss'
 
 const EditableContext = React.createContext();
 
-const EditableRow = ({ index, ...props }) => {
+const EditableRow = ({index, ...props}) => {
     const [form] = Form.useForm();
     return (
         <Form form={form} component={false}>
@@ -17,14 +17,14 @@ const EditableRow = ({ index, ...props }) => {
 };
 
 const EditableCell = ({
-    title,
-    editable,
-    children,
-    dataIndex,
-    record,
-    handleSave,
-    ...restProps
-}) => {
+                          title,
+                          editable,
+                          children,
+                          dataIndex,
+                          record,
+                          handleSave,
+                          ...restProps
+                      }) => {
     const [editing, setEditing] = useState(false);
     const inputRef = useRef();
     const form = useContext(EditableContext);
@@ -45,7 +45,7 @@ const EditableCell = ({
         try {
             const values = await form.validateFields();
             toggleEdit();
-            handleSave({ ...record, ...values });
+            handleSave({...record, ...values});
         } catch (errInfo) {
             console.log('Save failed:', errInfo);
         }
@@ -67,19 +67,19 @@ const EditableCell = ({
                     },
                 ]}
             >
-                <Input ref={inputRef} onPressEnter={save} onBlur={save} />
+                <Input ref={inputRef} onPressEnter={save} onBlur={save}/>
             </Form.Item>
         ) : (
-                <div
-                    className="editable-cell-value-wrap"
-                    style={{
-                        paddingRight: 24,
-                    }}
-                    onClick={toggleEdit}
-                >
-                    {children}
-                </div>
-            );
+            <div
+                className="editable-cell-value-wrap"
+                style={{
+                    paddingRight: 24,
+                }}
+                onClick={toggleEdit}
+            >
+                {children}
+            </div>
+        );
     }
 
     return <td {...restProps}>{childNode}</td>;
@@ -112,22 +112,30 @@ class EditableTable extends React.Component {
                     ) : null,
             },
         ];
-        const initData = this.props.initValue ? this.props.initValue.map((item, index) => {
-            return {
-                key: index + 1,
-                arg: item.arg,
-                value: item.value
-            }
-        }) : []
+        const initData = this.props.initValue ?
+            Object.keys(this.props.initValue).map((item, index) => {
+                    return {
+                        key: index + 1,
+                        arg: item,
+                        value: this.props.initValue[item]
+                    }
+                }
+            ) : []
         this.state = {
             dataSource: initData,
             count: initData.length + 1,
         };
     }
+
     getDataSource = () => {
-        return this.state.dataSource.map(item => {
-            return { arg: item.arg, value: item.value }
+        const returnData = {}
+        this.state.dataSource.forEach(item => {
+            returnData[[item.arg]] = item.value
         })
+        if (Object.keys(returnData).length===0){
+            return null
+        }
+        return returnData
     }
 
     handleDelete = key => {
@@ -138,7 +146,7 @@ class EditableTable extends React.Component {
     };
 
     handleAdd = () => {
-        const { count, dataSource } = this.state;
+        const {count, dataSource} = this.state;
         const newData = {
             key: count,
             arg: 'new arg',
@@ -154,14 +162,14 @@ class EditableTable extends React.Component {
         const newData = [...this.state.dataSource];
         const index = newData.findIndex(item => row.key === item.key);
         const item = newData[index];
-        newData.splice(index, 1, { ...item, ...row });
+        newData.splice(index, 1, {...item, ...row});
         this.setState({
             dataSource: newData,
         });
     };
 
     render() {
-        const { dataSource } = this.state;
+        const {dataSource} = this.state;
         const components = {
             body: {
                 row: EditableRow,
@@ -208,4 +216,5 @@ class EditableTable extends React.Component {
         );
     }
 }
+
 export default EditableTable

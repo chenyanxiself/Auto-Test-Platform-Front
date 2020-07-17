@@ -24,7 +24,7 @@ class ProjectCreate extends Component {
             this.props.closeModal()
             this.props.reloadData()
         } else {
-            message.warning('新建项目失败' + res.error)
+            message.warning(res.error)
         }
     }
 

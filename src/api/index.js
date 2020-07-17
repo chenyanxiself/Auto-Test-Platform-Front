@@ -9,6 +9,10 @@ const urls = {
     delProjectImgUrl: '/project/delProjectImg',
     createProjectUrl: '/project/createProject',
     getAllProjectUrl: '/project/getAllProject',
+    getProjectByIdUrl: '/project/getProjectById',
+    updateProjectByIdUrl: '/project/updateProjectById',
+    updateProjectTypeUrl:'/project/updateProjectType',
+    deleteProjectUrl:'/project/deleteProject',
     getEnvByProjectIdUrl: '/project/getEnvByProjectId',
     singleCaseDebugUrl: '/request/singleCaseDebug',
     createProjectApiCaseUrl: '/project/createProjectApiCase/',
@@ -63,9 +67,12 @@ export const getAllUser = () => {
     return instance.post(urls.getAllUserUrl)
 }
 
-export const uploadProjectImgApi = (data) => {
+export const uploadProjectImgApi = (data, projectId) => {
     let form = new FormData()
     form.append(data.filename, data.file)
+    if (projectId) {
+        form.append('project_id', projectId)
+    }
     return instance.post(urls.uploadProjectImgUrl, form, {headers: {'Content-Type': 'multipart/form-data'}})
 }
 
@@ -83,8 +90,31 @@ export const createProject = (data) => {
     return instance.post(urls.createProjectUrl, postData)
 }
 
+export const updateProjectById = data => {
+    const postData = {
+        id: data.id,
+        project_name: data.projectName,
+        project_desc: data.projectDesc,
+        project_img: data.projectImg,
+        project_member: data.projectMember,
+    }
+    return instance.post(urls.updateProjectByIdUrl, postData)
+}
+
 export const getAllProject = (type) => {
     return instance.get(urls.getAllProjectUrl, {params: {type}})
+}
+
+export const getProjectById = (id) => {
+    return instance.get(urls.getProjectByIdUrl, {params: {id}})
+}
+
+export const updateProjectType = (id,projectType)=>{
+    return instance.post(urls.updateProjectTypeUrl,{id,project_type:projectType})
+}
+
+export const deleteProject =(id)=>{
+    return instance.post(urls.deleteProjectUrl,{id})
 }
 
 //根据条件筛选接口用例
@@ -101,8 +131,8 @@ export const getApiCaseByCondition = (projectId, pageNum, pageSize, type, keywor
     return instance.get(urls.getApiCaseByConditionUrl, getData)
 }
 
-export const deleteApiCaseById = (id) => {
-    return instance.post(urls.deleteApiCaseByIdUrl, {id})
+export const deleteApiCaseById = (id,projectId) => {
+    return instance.post(urls.deleteApiCaseByIdUrl, {id,project_id:projectId})
 }
 
 export const getEnvByProjectId = (projectId) => {
@@ -178,8 +208,8 @@ export const createSuite = (projectId, suiteName) => {
     return instance.post(urls.createSuiteUrl, {project_id: projectId, suite_name: suiteName})
 }
 
-export const deleteSuite = (suiteId) => {
-    return instance.post(urls.deleteSuiteUrl, {suite_id: suiteId})
+export const deleteSuite = (suiteId,projectId) => {
+    return instance.post(urls.deleteSuiteUrl, {suite_id: suiteId,project_id:projectId})
 }
 
 export const updateSuiteCaseRelation = (suiteId, projectId, caseIdList) => {
@@ -218,14 +248,15 @@ export const getReportByCondition = (projectId) => {
     return instance.get(urls.getReportByConditionUrl, {params: {project_id: projectId}})
 }
 
-export const deleteReportById = (id) => {
-    return instance.post(urls.deleteReportByIdUrl, {id})
+export const deleteReportById = (id,projectId) => {
+    return instance.post(urls.deleteReportByIdUrl, {id,project_id:projectId})
 }
 
-export const getReportDetail = (id) => {
+export const getReportDetail = (id,projectId) => {
     return instance.get(urls.getReportDetailUrl, {
         params: {
-            report_id: id
+            report_id: id,
+            project_id:projectId
         }
     })
 }

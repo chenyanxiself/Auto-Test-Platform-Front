@@ -71,9 +71,9 @@ class ProjectCaseModal extends Component {
                                 requestMehod: this.initValue.requestMehod,
                                 requestPath: this.initValue.requestPath,
                                 requestHost: this.initValue.requestHost,
-                                requestHeaders: this.initValue.requestHeaders || [],
-                                requestQuery: this.initValue.requestQuery || [],
-                                requestBody: this.initValue.requestBody || [],
+                                requestHeaders: this.initValue.requestHeaders,
+                                requestQuery: this.initValue.requestQuery ,
+                                requestBody: this.initValue.requestBody,
                             }
                         }
                     >

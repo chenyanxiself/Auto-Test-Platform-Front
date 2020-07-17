@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
-import {message, Tabs, Button,Modal} from 'antd';
+import {message, Tabs, Button, Modal} from 'antd';
 import ProTable from '@ant-design/pro-table';
 import {deleteReportById, getReportByCondition} from '../../api/index'
-import {ExclamationCircleOutlined } from '@ant-design/icons';
+import {ExclamationCircleOutlined} from '@ant-design/icons';
 
 const valueEnum = {
     0: 'unStarted',
     1: 'underWay',
     2: 'finished',
+    3: 'error'
 };
 
 class ProjectReport extends Component {
@@ -42,6 +43,7 @@ class ProjectReport extends Component {
                     unStarted: {text: '未开始', status: 'Default'},
                     underWay: {text: '运行中', status: 'Processing'},
                     finished: {text: '已完成', status: 'Success'},
+                    error: {text: '错误', status: 'Error'}
                 },
             },
 
@@ -50,7 +52,7 @@ class ProjectReport extends Component {
                 dataIndex: 'progress',
                 valueType: (item) => ({
                     type: 'progress',
-                    status: 'active',
+                    status: item.status === 3 ? 'exception' : 'active',
                 }),
                 width: 200,
                 hideInSearch: true
@@ -104,15 +106,16 @@ class ProjectReport extends Component {
             },
         ];
     }
+
     onDelete = async (item) => {
         Modal.confirm({
             title: '是否确认删除?',
-            icon: <ExclamationCircleOutlined />,
+            icon: <ExclamationCircleOutlined/>,
             okText: '确定',
             cancelText: '取消',
             maskClosable: true,
             onOk: async () => {
-                let resData = await deleteReportById(item.id)
+                let resData = await deleteReportById(item.id,this.projectId)
                 if (resData.status !== 1) {
                     message.error('删除报告失败 :' + resData.error)
                 } else {
@@ -120,7 +123,7 @@ class ProjectReport extends Component {
                     this.getData()
                 }
             },
-            onCancel: this.setState({ isModalVisible: false }),
+            onCancel: this.setState({isModalVisible: false}),
         });
     }
     onDetail = (item) => {
@@ -157,20 +160,22 @@ class ProjectReport extends Component {
             message.warning(res.error)
         }
     }
-    componentWillUnmount(){
+
+    componentWillUnmount() {
+        this.setState = ()=>false
         clearInterval(this.intervalId)
     }
-    componentDidMount(){
+
+    componentDidMount() {
         this.getData()
-        this.intervalId=setInterval(() => {
+        this.intervalId = setInterval(() => {
             this.getData()
         }, 1000);
     }
 
-
     render() {
         return (
-            <Tabs defaultActiveKey="1" style={{padding:'0 15px'}}>
+            <Tabs defaultActiveKey="1" style={{padding: '0 15px'}}>
                 <Tabs.TabPane tab="接口测试报告" key="1">
                     <ProTable
                         columns={this.columns}

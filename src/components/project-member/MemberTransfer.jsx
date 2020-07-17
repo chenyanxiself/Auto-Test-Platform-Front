@@ -46,7 +46,7 @@ class MemberTransfer extends Component {
             })
             this.setState({userData: userList, targetKeys: selectedKeys})
         } else {
-            message.warning('获取用户信息失败: ' + res.error)
+            message.warning(res.error)
         }
     };
 

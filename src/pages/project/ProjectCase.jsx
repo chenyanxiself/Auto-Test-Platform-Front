@@ -154,9 +154,9 @@ class ProjectCase extends Component {
             cancelText: '取消',
             maskClosable: true,
             onOk: async () => {
-                let resData = await deleteApiCaseById(item.id)
+                let resData = await deleteApiCaseById(item.id,this.projectId)
                 if (resData.status !== 1) {
-                    message.error('删除分类失败 :' + resData.error)
+                    message.warning(resData.error)
                 } else {
                     message.success('删除用例成功')
                     this.getData(this.state.pageNum)
@@ -170,35 +170,41 @@ class ProjectCase extends Component {
         const resData = await getApiCaseByCondition(
             this.projectId, pageNum, this.pageSize, this.state.selectMethod, this.state.searchKeyword
         )
-        const total = resData.data.total
-        const dataInit = resData.data.data
-        if (dataInit.length===0&&pageNum>1) {
-            return this.getData(pageNum-1)
-        }
-        const data = dataInit.map(item => {
-            return {
-                id: item.id,
-                orderId:item.order_id,
-                caseName: item.name,
-                requestMehod: item.method,
-                requestHost: {
-                    isUseEnv: item.is_use_env,
-                    requestHost: item.request_host,
-                    envHost: item.env_host,
-                    realHost: item.real_host,
-                },
-                requestPath: item.request_path,
-                requestHeaders: item.request_headers,
-                requestQuery: item.request_query,
-                requestBody: item.request_body,
+        if (resData.status===1){
+            const total = resData.data.total
+            const dataInit = resData.data.data
+            if (dataInit.length===0&&pageNum>1) {
+                return this.getData(pageNum-1)
             }
-        })
-        this.setState({
-            total,
-            data,
-            isLoading: false,
-            pageNum: pageNum
-        })
+            const data = dataInit.map(item => {
+                return {
+                    id: item.id,
+                    orderId:item.order_id,
+                    caseName: item.name,
+                    requestMehod: item.method,
+                    requestHost: {
+                        isUseEnv: item.is_use_env,
+                        requestHost: item.request_host,
+                        envHost: item.env_host?item.env_host:undefined,
+                        realHost: item.real_host,
+                    },
+                    requestPath: item.request_path,
+                    requestHeaders: item.request_headers,
+                    requestQuery: item.request_query,
+                    requestBody: item.request_body,
+                }
+            })
+            this.setState({
+                total,
+                data,
+                isLoading: false,
+                pageNum: pageNum
+            })
+        }else {
+            message.warning(resData.error)
+            this.setState({isLoading: false})
+        }
+
     }
     onCancel = () => {
         this.setState({ isModalVisible: false, currentCase: {} })
