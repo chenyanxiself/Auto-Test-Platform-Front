@@ -1,33 +1,35 @@
-.project-body-item {
-    height       : 200px;
-    width        : 200px;
-    // display      : inline-block;
-    margin-right : 20px;
-    margin-bottom: 20px;
-    float: left;
-    .project-body-item-title {
-        font-size: 17px;
-    }
-    .project-body-item-body-remark {
-        display           : -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
-        overflow          : hidden;
-    }
-    .project-body-item-cover {
-        text-align: center;
-        padding   : 10px 10px;
 
-        img {
-            height: 80px;
-            width : 180px;
+.project-body-list {
+  .ant-col {
+    height: 100%;
+    padding-bottom: 20px;
+
+    .project-body-list-item {
+      height: 100%;
+
+      .project-body-card {
+        height: 100%;
+        .ant-card-cover{
+          height: 60%;
+          img{
+            height: 100%;
+          }
         }
+
+        .ant-card-meta-title {
+          margin-bottom: 4px;
+        }
+
+        .ant-card-meta-description {
+          //height: 44px;
+          overflow: hidden;
+          //line-height: 22px;
+          display           : -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+        }
+      }
     }
-}
+  }
 
-.project-bottom-pagination {
-    float       : right;
-    margin-right: 20px;
-    margin-top  : 10px;
 }
-

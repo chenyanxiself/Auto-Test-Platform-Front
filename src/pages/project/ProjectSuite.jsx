@@ -133,10 +133,11 @@ class ProjectSuite extends Component {
         })
     }
     onModalOk = async () => {
+        let caseIdList=this.modalRef.current.getSelectedKeys()
         const res = await updateSuiteCaseRelation(
             this.state.currentSuite.suiteId,
             this.projectId,
-            this.modalRef.current.getSelectedKeys()
+            caseIdList
         )
         if (res.status === 1) {
             message.success('编辑成功')

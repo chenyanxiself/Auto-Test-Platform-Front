@@ -1,0 +1,47 @@
+.project-body-item {
+  height       : 200px;
+  width        : 200px;
+  // display      : inline-block;
+  margin-right : 20px;
+  margin-bottom: 20px;
+  float: left;
+  .project-body-item-title {
+    font-size: 17px;
+  }
+  .project-body-item-body-remark {
+    display           : -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow          : hidden;
+  }
+  .project-body-item-cover {
+    text-align: center;
+    padding   : 10px 10px;
+
+    img {
+      height: 80px;
+      width : 180px;
+    }
+  }
+}
+
+.project-bottom-pagination {
+  float       : right;
+  margin-right: 20px;
+  margin-top  : 10px;
+}
+
+//.project-body-item{
+//    .ant-card-meta-title{
+//        margin-bottom: 4px;
+//        &>a{
+//            display: inline-block;
+//            max-width: 100%;
+//        }
+//    }
+//    .ant-card-meta-description{
+//        height: 44px;
+//        overflow: hidden;
+//        line-height: 22px;
+//    }
+//}

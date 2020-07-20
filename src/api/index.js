@@ -14,6 +14,9 @@ const urls = {
     updateProjectTypeUrl:'/project/updateProjectType',
     deleteProjectUrl:'/project/deleteProject',
     getEnvByProjectIdUrl: '/project/getEnvByProjectId',
+    updateProjectEnvUrl:'/project/updateProjectEnv',
+    deleteProjectEnvUrl:'/project/deleteProjectEnv',
+    createProjectEnvUrl:'/project/createProjectEnv',
     singleCaseDebugUrl: '/request/singleCaseDebug',
     createProjectApiCaseUrl: '/project/createProjectApiCase/',
     updateProjectApiCaseUrl: '/project/updateProjectApiCase/',
@@ -137,6 +140,33 @@ export const deleteApiCaseById = (id,projectId) => {
 
 export const getEnvByProjectId = (projectId) => {
     return instance.get(urls.getEnvByProjectIdUrl, {params: {project_id: parseInt(projectId)}})
+}
+
+export const updateProjectEnv=(projectId,envId,envName,envHost)=>{
+    const postData = {
+        project_id:projectId,
+        env_host:envHost,
+        env_name:envName,
+        id:envId
+    }
+    return instance.post(urls.updateProjectEnvUrl,postData)
+}
+
+export const deleteProjectEnv=(projectId,envId)=>{
+    const postData = {
+        project_id:projectId,
+        id:envId
+    }
+    return instance.post(urls.deleteProjectEnvUrl,postData)
+}
+
+export const createProjectEnv=(projectId,envName,envHost)=>{
+    const postData = {
+        project_id:projectId,
+        env_host:envHost,
+        env_name:envName,
+    }
+    return instance.post(urls.createProjectEnvUrl,postData)
 }
 
 export const singleCaseDebug = (data) => {
