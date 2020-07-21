@@ -32,6 +32,10 @@ class ProjectSuiteModifyModal extends Component {
                 title: '请求域名',
                 dataIndex: 'real_host',
             },
+            {
+                title: '请求路径',
+                dataIndex: 'request_path',
+            },
         ]
     };
 

@@ -52,7 +52,7 @@ class Base extends Component {
         const res = await uploadProjectImgApi(file, this.props.projectId)
         if (res.status === 1) {
             message.success('上传成功')
-            this.setState({url: res.data.url})
+            this.setState({projectImgUrl: res.data.url})
         } else {
             message.warning(res.error)
         }

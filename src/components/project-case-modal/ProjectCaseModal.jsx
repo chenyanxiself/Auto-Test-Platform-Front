@@ -1,12 +1,14 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import './projectCaseModal.scss'
-import { Input, Form, Select, Button, Tabs, message, Spin } from 'antd'
+import {Input, Form, Select, Button, Tabs, message, Spin} from 'antd'
 import Host from './Host'
 import ReactJson from 'react-json-view'
 import RequestArgsModal from './RequestArgsModal'
-import { getStrDataFromJson, getJsonDataFromStr } from '../../util/commonUtil'
-import { singleCaseDebug } from '../../api/index'
-const { TabPane } = Tabs;
+import {getStrDataFromJson, getJsonDataFromStr} from '../../util/commonUtil'
+import {singleCaseDebug} from '../../api/index'
+
+const {TabPane} = Tabs;
+
 class ProjectCaseModal extends Component {
     constructor(props) {
         super(props);
@@ -17,12 +19,13 @@ class ProjectCaseModal extends Component {
             isWaitingRes: false
         }
     }
+
     handleSubmit = async (value) => {
-        this.setState({ isWaitingRes: true })
+        this.setState({isWaitingRes: true})
         let res = await singleCaseDebug(value)
-        this.setState({ isWaitingRes: false })
+        this.setState({isWaitingRes: false})
         if (res.status === 1) {
-            this.setState({ responseResult: getJsonDataFromStr(res.data) })
+            this.setState({responseResult: getJsonDataFromStr(res.data)})
         } else {
             message.warning(res.error)
         }
@@ -51,7 +54,7 @@ class ProjectCaseModal extends Component {
     render() {
         const formItemLayout = {
             labelCol: {
-                span: 5
+                span: 4
             },
             wrapperCol: {
                 span: 15
@@ -72,7 +75,7 @@ class ProjectCaseModal extends Component {
                                 requestPath: this.initValue.requestPath,
                                 requestHost: this.initValue.requestHost,
                                 requestHeaders: this.initValue.requestHeaders,
-                                requestQuery: this.initValue.requestQuery ,
+                                requestQuery: this.initValue.requestQuery,
                                 requestBody: this.initValue.requestBody,
                             }
                         }
@@ -80,14 +83,14 @@ class ProjectCaseModal extends Component {
                         <Form.Item
                             name='caseName'
                             label='用例名称'
-                            rules={[{ required: true, message: '必填' }]}
+                            rules={[{required: true, message: '必填'}]}
                         >
                             <Input placeholder='请输入用例名称' autoComplete="off"/>
                         </Form.Item>
                         <Form.Item
                             name='requestMehod'
                             label='请求方式'
-                            rules={[{ required: true, message: '必填' }]}
+                            rules={[{required: true, message: '必填'}]}
                             wrapperCol={{
                                 span: 6
                             }}
@@ -104,7 +107,7 @@ class ProjectCaseModal extends Component {
                         <Form.Item
                             name='requestPath'
                             label='请求路径'
-                            rules={[{ required: true, message: '必填' }]}
+                            rules={[{required: true, message: '必填'}]}
                         >
                             <Input placeholder='请输入请求地址' autoComplete="off"/>
                         </Form.Item>
@@ -112,7 +115,7 @@ class ProjectCaseModal extends Component {
                             name='requestHost'
                             label='请求域名'
                             required={true}
-                            rules={[{ validator: this.hostValidator }]}
+                            rules={[{validator: this.hostValidator}]}
                         >
                             <Host projectId={this.props.projectId}/>
                         </Form.Item>
@@ -120,60 +123,58 @@ class ProjectCaseModal extends Component {
                             name='requestHeaders'
                             label='请求头部'
                         >
-                            <RequestArgsModal />
+                            <RequestArgsModal/>
                         </Form.Item>
                         <Form.Item
                             name='requestQuery'
                             label='请求参数'
                         >
-                            <RequestArgsModal />
+                            <RequestArgsModal/>
                         </Form.Item>
                         <Form.Item
                             name='requestBody'
                             label='请求主体'
                         >
-                            <RequestArgsModal />
+                            <RequestArgsModal/>
                         </Form.Item>
-                        <Form.Item wrapperCol={{ offset: 10 }}>
+                        <Form.Item wrapperCol={{offset: 4}}>
                             <Button type='primary' htmlType="submit">调试</Button>
                         </Form.Item>
                     </Form>
                 </div>
                 <div className='project-case-body-right'>
-                    <span >响应结果:</span>
+                    <span>响应结果:</span>
                     <Tabs defaultActiveKey="1">
                         <TabPane tab="Rows" key="1">
-                            <div style={{
-                                border: '1px solid #d9d9d9',
-                                height: 300,
-                                overflowY: 'scroll'
-                            }}>
-                                {this.state.isWaitingRes ?
-                                    <Spin style={{marginTop:135,marginLeft:140}}/>
-                                    :
+                            <Spin
+                                spinning={this.state.isWaitingRes}
+                            >
+                                <div style={{
+                                    border: '1px solid #d9d9d9',
+                                    height: 300,
+                                    overflowY: 'scroll'
+                                }}>
                                     <span>{getStrDataFromJson(this.state.responseResult)}</span>
-                                }
-                            </div>
+                                </div>
+                            </Spin>
                         </TabPane>
                         <TabPane tab="Json" key="2">
-                            <div style={{
-                                border: '1px solid #d9d9d9',
-                                height: 300,
-                                overflowY: 'scroll'
-                            }}>
-                                {this.state.isWaitingRes ?
-                                    <Spin style={{marginTop:135,marginLeft:140}}/>
-                                    :
+                            <Spin
+                                spinning={this.state.isWaitingRes}
+                            >
+                                <div style={{
+                                    border: '1px solid #d9d9d9',
+                                    height: 300,
+                                    overflowY: 'scroll'
+                                }}>
                                     <ReactJson
-                                        src={this.state.responseResult}
+                                        src={this.state.responseResult?this.state.responseResult:undefined}
                                         name={false}
                                         displayDataTypes={false}
                                         displayObjectSize={false}
                                     />
-                                }
-
-                            </div>
-
+                                </div>
+                            </Spin>
                         </TabPane>
                     </Tabs>
                 </div>
@@ -181,4 +182,5 @@ class ProjectCaseModal extends Component {
         );
     }
 }
+
 export default ProjectCaseModal;

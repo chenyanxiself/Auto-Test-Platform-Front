@@ -40,6 +40,9 @@ class RequestArgsModal extends Component {
                     visible={this.state.isModalVisible}
                     onOk={this.onOk}
                     destroyOnClose={true}
+                    title={'编辑请求'}
+                    width={800}
+                    maskClosable={false}
                 >
                     <RequestArgs ref={this.requestArgsRef} initValue={this.props.value}/>
                 </Modal>

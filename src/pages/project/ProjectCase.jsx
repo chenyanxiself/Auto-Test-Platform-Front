@@ -99,21 +99,21 @@ class ProjectCase extends Component {
                 width: '10%',
                 dataIndex: 'requestHeaders',
                 ellipsis:true,
-                render: (headers) => getStrDataFromJson(headers)
+                render: (headers) => <Tooltip title={getStrDataFromJson(headers)}>{getStrDataFromJson(headers)}</Tooltip>
             },
             {
                 title: '请求参数',
                 width: '10%',
                 dataIndex: 'requestQuery',
                 ellipsis:true,
-                render: (query) => getStrDataFromJson(query)
+                render: (query) => <Tooltip title={getStrDataFromJson(query)}>{getStrDataFromJson(query)}</Tooltip>
             },
             {
                 title: '请求主体',
                 width: '10%',
                 dataIndex: 'requestBody',
                 ellipsis:true,
-                render: (body) => getStrDataFromJson(body)
+                render: (body) => <Tooltip title={getStrDataFromJson(body)}>{getStrDataFromJson(body)}</Tooltip>
             },
             {
                 title: '操作',
@@ -290,7 +290,7 @@ class ProjectCase extends Component {
                         dataSource={this.state.data}
                         columns={this.columns}
                         size='middle'
-                        bordered
+                        // bordered
                         tableLayout='fixed'
                         loading={this.state.isLoading}
                         rowKey={item => item.id}
@@ -307,12 +307,13 @@ class ProjectCase extends Component {
                     className='project-case-modal'
                     visible={this.state.isModalVisible}
                     onCancel={this.onCancel}
-                    width={800}
+                    width={1000}
                     title='用例编辑'
                     destroyOnClose={true}
                     onOk={this.onOk}
                     centered={true}
                     bodyStyle={{ height: 480 }}
+                    maskClosable={false}
                 >
                     <ProjectCaseModal
                         ref={this.PCMRef}
