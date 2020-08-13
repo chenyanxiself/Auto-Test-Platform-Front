@@ -26,7 +26,6 @@ class ProjectHeader extends Component {
     }
     logout = () => {
         storeageUtil.remove(key.TOKEN)
-        console.log(this.props.history)
         this.props.history.push('/login/')
     }
     handleUserInfo = () => {

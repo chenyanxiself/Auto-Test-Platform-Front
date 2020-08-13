@@ -91,13 +91,15 @@ class Project extends Component {
                                     className={'project-body-card'}
                                     hoverable={true}
                                     key={item.id}
-                                    cover={<img alt={item.name} src={item.url}/>}
+                                    cover={<img alt={item.name} src={item.url} className={'project-body-card-img'}/>}
                                     onClick={() => {
                                         this.onProjectClick(item)
                                     }}
-                                    bodyStyle={{height:'40%',padding:20}}
                                 >
-                                    <Card.Meta title={item.name} description={item.remark}/>
+                                    <Card.Meta
+                                        title={<div className={'project-body-card-title'}>{item.name}</div>}
+                                        description={<div className={'project-body-card-remark'}>{item.remark}</div>}
+                                    />
                                 </Card>
                             </List.Item>
                         )}

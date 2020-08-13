@@ -4,7 +4,8 @@ import {
     BlockOutlined,
     BookOutlined,
     SettingOutlined,
-    EnvironmentOutlined
+    EnvironmentOutlined,
+    CalculatorOutlined
 } from '@ant-design/icons';
 
 export default [
@@ -15,9 +16,15 @@ export default [
         icon:<ProjectOutlined />
     },
     {
-        name:'接口用例',
+        name:'测试用例',
         path:'/project/:id/case',
-        regExp:/^\/project\/\d+\/case\/?$/,
+        regExp:/^\/project\/\d+\/case\/?/,
+        icon:<CalculatorOutlined />
+    },
+    {
+        name:'接口用例',
+        path:'/project/:id/apiCase',
+        regExp:/^\/project\/\d+\/apiCase\/?$/,
         icon:<BlockOutlined />
     },
     {

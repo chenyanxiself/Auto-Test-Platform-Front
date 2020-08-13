@@ -62,7 +62,7 @@ class Host extends Component {
                     <Select
                         value={this.state.envHost}
                         style={{
-                            width: 140,
+                            width: 150,
                         }}
                         onChange={this.onEnvHostChange}
                         placeholder='请选择环境'

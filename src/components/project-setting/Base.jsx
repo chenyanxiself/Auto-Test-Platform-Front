@@ -10,9 +10,6 @@ class Base extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            // projectName:'',
-            // projectDesc:'',
-            // projectMember:[],
             projectImgUrl: '',
         };
         this.form = React.createRef()

@@ -1,14 +1,17 @@
 .project-suite{
+  width: 100%;
+  height: 100%;
+  padding-left: 335px;
   .project-suite-left{
+    width: 335px;
     float: left;
-    margin: auto 10px;
-    width: 26%;
     height: 100%;
+    margin-left: -335px;
+    padding-right: 15px;
   }
   .project-suite-right{
     float: left;
-    margin: auto 10px;
-    width: 70%;
+    width: 100%;
     height: 100%;
     .project-suite-right-search{
       width: 150px;

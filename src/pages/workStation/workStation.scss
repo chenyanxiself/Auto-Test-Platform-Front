@@ -1,0 +1,57 @@
+.workstation-header-main{
+  display: flex;
+  .workstation-header-avatar{
+    flex: 0 1 72px;
+    float: left;
+    &>span{
+      display: block;
+      width: 72px;
+      height: 72px;
+      border-radius: 72px;
+    }
+    .workstation-header-avatar-text{
+      line-height: 72px;
+      font-size: 20px;
+    }
+  }
+  .workstation-header-content{
+    float: left;
+    position: relative;
+    top: 10px;
+    flex: 1 1 auto;
+    margin-left: 24px;
+    line-height: 22px;
+    color: rgba(0,0,0,.45);
+    .workstation-header-title{
+      margin-bottom: 12px;
+      color: rgba(0,0,0,.85);
+      font-weight: 500;
+      font-size: 20px;
+      line-height: 28px;
+    }
+  }
+}
+.workstation-main{
+  height: calc(100% + 20px);
+  width: calc(100% + 20px);
+  margin: -10px;
+  background-color: #f0f2f5;
+}
+.workstation-extra{
+  float: right;
+  white-space: nowrap;
+  .workstation-extra-item{
+    margin-right: 50px;
+    float: left;
+  }
+}
+.workstation-grid{
+  width: 33.33%;
+  height: 100px;
+  cursor: pointer;
+  .workstation-grid-remark{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

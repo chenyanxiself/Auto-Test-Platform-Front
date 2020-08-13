@@ -31,9 +31,18 @@ const urls = {
     updateSuiteCaseRelationUrl: '/project/updateSuiteCaseRelation',
     updateSuiteCaseSortUrl: '/project/updateSuiteCaseSort',
     executeSuiteUrl: '/project/executeSuite',
-    getReportByConditionUrl: '/report/getAllReport',
-    deleteReportByIdUrl: '/report/deleteReportById',
-    getReportDetailUrl: '/report/getReportDetail'
+    getReportByConditionUrl: '/project/report/getAllReport',
+    deleteReportByIdUrl: '/project/report/deleteReportById',
+    getReportDetailUrl: '/project/report/getReportDetail',
+    createModuleUrl:'/project/case/createModule',
+    updateModuleUrl:'/project/case/updateModule',
+    deleteModuleUrl:'/project/case/deleteModule',
+    getAllModuleUrl:'/project/case/getAllModule',
+    getCaseByModuleIdUrl:'/project/case/getCaseByModuleId',
+    createProjectCaseUrl:'/project/case/createProjectCase',
+    updateProjectCaseUrl:'/project/case/updateProjectCase',
+    deleteProjectCaseUrl:'/project/case/deleteProjectCase',
+    getWorkstationProjectsUrl:'/workstation/getWorkstationProjects'
 }
 
 export const loginApi = (data) => {
@@ -251,12 +260,13 @@ export const updateSuiteCaseRelation = (suiteId, projectId, caseIdList) => {
     return instance.post(urls.updateSuiteCaseRelationUrl, postData)
 }
 
-export const updateSuiteCaseSort = (projectId, suiteId, beforeId, afterId) => {
+export const updateSuiteCaseSort = (projectId, suiteId, beforeId, afterId,type) => {
     const postData = {
         project_id: projectId,
         suite_id: suiteId,
         before_id: beforeId,
-        after_id: afterId
+        after_id: afterId,
+        type
     }
     return instance.post(urls.updateSuiteCaseSortUrl, postData)
 }
@@ -289,4 +299,64 @@ export const getReportDetail = (id,projectId) => {
             project_id:projectId
         }
     })
+}
+
+export const createModule = (name,parentId,projectId)=>{
+    const postData={
+        name,
+        parent_id:parentId,
+        project_id:projectId
+    }
+    return instance.post(urls.createModuleUrl, postData)
+}
+
+export const updateModule = (name,id,projectId,parentId)=>{
+    const postData={
+        name,
+        id:id,
+        project_id:projectId,
+        parent_id:parentId
+    }
+    return instance.post(urls.updateModuleUrl, postData)
+}
+
+export const getAllModule = (projectId)=>{
+    return instance.get(urls.getAllModuleUrl, {params:{project_id:projectId}})
+}
+
+export const deleteModule = (idList,projectId)=>{
+    const postData={
+        id_list:idList,
+        project_id:projectId,
+    }
+    return instance.post(urls.deleteModuleUrl, postData)
+}
+
+export const getCaseByModuleId=(projectId,moduleId,keyword)=>{
+    let postData={
+        project_id:projectId,
+        module_id:moduleId,
+        keyword
+    }
+    return instance.post(urls.getCaseByModuleIdUrl, postData)
+}
+
+export const createProjectCase=(data)=>{
+    return instance.post(urls.createProjectCaseUrl, data)
+}
+
+export const updateProjectCase=(data)=>{
+    return instance.post(urls.updateProjectCaseUrl, data)
+}
+
+export const deleteProjectCase=(ids,projectId)=>{
+    const postData={
+        case_id_list:ids,
+        project_id:projectId
+    }
+    return instance.post(urls.deleteProjectCaseUrl,postData)
+}
+
+export const getWorkstationProjects=()=>{
+    return instance.get(urls.getWorkstationProjectsUrl)
 }

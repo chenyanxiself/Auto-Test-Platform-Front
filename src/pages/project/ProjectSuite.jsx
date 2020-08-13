@@ -17,8 +17,8 @@ import {HTML5Backend} from 'react-dnd-html5-backend'
 import update from 'immutability-helper';
 import {component} from '../../components/project-suite/DndComponent'
 import {DndProvider} from 'react-dnd'
-import RequestArgsModal from '../../components/project-case-modal/RequestArgsModal'
-import Host from "../../components/project-case-modal/Host";
+import RequestArgsModal from '../../components/project-api-case/RequestArgsModal'
+import Host from "../../components/project-api-case/Host";
 
 const {confirm} = Modal
 
@@ -72,9 +72,9 @@ class ProjectSuite extends Component {
     getData = async () => {
         this.setState({isLeftCardLoading: true})
         const res = await getSuiteByProjectId(this.projectId)
-        if (res.status===1){
+        if (res.status === 1) {
             this.setState({suiteList: res.data, isLeftCardLoading: false})
-        }else {
+        } else {
             message.warning(res.error)
         }
     }
@@ -126,14 +126,14 @@ class ProjectSuite extends Component {
                 this.getData({isSuiteModifyModalVisible: false})
                 this.setState({isSuiteCreateModalVisible: false})
             } else {
-                message.warning( res.error)
+                message.warning(res.error)
             }
         }).catch(e => {
             console.log(e)
         })
     }
     onModalOk = async () => {
-        let caseIdList=this.modalRef.current.getSelectedKeys()
+        let caseIdList = this.modalRef.current.getSelectedKeys()
         const res = await updateSuiteCaseRelation(
             this.state.currentSuite.suiteId,
             this.projectId,
@@ -144,7 +144,7 @@ class ProjectSuite extends Component {
             this.getSuiteData(this.state.currentSuite.suiteId)
             this.setState({isSuiteModifyModalVisible: false})
         } else {
-            message.warning( res.error)
+            message.warning(res.error)
         }
     }
 
@@ -154,7 +154,7 @@ class ProjectSuite extends Component {
             icon: <ExclamationCircleOutlined/>,
             maskClosable: true,
             onOk: async () => {
-                const res = await deleteSuite(suiteId,this.projectId)
+                const res = await deleteSuite(suiteId, this.projectId)
                 if (res.status === 1) {
                     message.success('删除成功')
                     this.getData()
@@ -184,7 +184,10 @@ class ProjectSuite extends Component {
         )
         const beforeId = this.state.dataSource[dragIndex].id
         const afterId = this.state.dataSource[hoverIndex].id
-        const res = await updateSuiteCaseSort(this.projectId, this.state.currentSuite.suiteId, beforeId, afterId)
+        // console.log(this.state.dataSource[dragIndex])
+        // console.log(this.state.dataSource[hoverIndex])
+        const type = dragIndex > hoverIndex ? 1 : 2  //'1'代表after的上方  '2'代表after的下方
+        const res = await updateSuiteCaseSort(this.projectId, this.state.currentSuite.suiteId, beforeId, afterId, type)
         if (res.status === 1) {
             this.setState({dataSource: newDataSource});
         } else {
@@ -192,11 +195,11 @@ class ProjectSuite extends Component {
         }
     };
     onExecute = async (value) => {
-        const res = await executeSuite(this.projectId,this.state.currentSuite.suiteId,value)
-        if (res.status===1){
+        const res = await executeSuite(this.projectId, this.state.currentSuite.suiteId, value)
+        if (res.status === 1) {
             message.success('请在测试报告页面查看结果')
-            this.setState({isCaseExecuteModalVisible:false})
-        }else {
+            this.setState({isCaseExecuteModalVisible: false})
+        } else {
             message.warning(res.error)
         }
     }
@@ -237,14 +240,14 @@ class ProjectSuite extends Component {
             </Button>
         )
         const layout = {
-            labelCol: { span: 6 },
-            wrapperCol: { span: 16 },
+            labelCol: {span: 6},
+            wrapperCol: {span: 16},
         };
         const tailLayout = {
-            wrapperCol: { offset: 6, span: 14 },
+            wrapperCol: {offset: 6, span: 14},
         };
         return (
-            <div className={'project-suite'} style={{height: '100%'}}>
+            <div className={'project-suite'}>
                 <Card
                     className={'project-suite-left'}
                     title="测试集"
@@ -323,11 +326,11 @@ class ProjectSuite extends Component {
                         onFinish={this.onExecute}
                         labelAlign={"left"}
                         initialValues={{
-                            isSaveCookie:true,
-                            globalHost:{
-                                isUseEnv:true,
-                                requestHost:undefined,
-                                envHost:undefined
+                            isSaveCookie: true,
+                            globalHost: {
+                                isUseEnv: true,
+                                requestHost: undefined,
+                                envHost: undefined
                             }
                         }}
                     >
@@ -341,14 +344,14 @@ class ProjectSuite extends Component {
                             label={'全局请求头'}
                             name={'globalHeaders'}
                         >
-                            <RequestArgsModal />
-                        </Form.Item >
+                            <RequestArgsModal/>
+                        </Form.Item>
                         <Form.Item
                             {...tailLayout}
                             name="isSaveCookie"
                             valuePropName="checked"
                         >
-                            <Checkbox >自动保存Cookie</Checkbox>
+                            <Checkbox>自动保存Cookie</Checkbox>
                         </Form.Item>
                         <Form.Item {...tailLayout}>
                             <Button

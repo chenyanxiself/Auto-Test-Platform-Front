@@ -51,7 +51,6 @@ const EditableCell = ({
     };
 
     let childNode = children;
-
     if (editable) {
         childNode = editing ? (
             <Form.Item
@@ -67,6 +66,7 @@ const EditableCell = ({
                 className="editable-cell-value-wrap"
                 style={{
                     paddingRight: 24,
+                    height:32
                 }}
                 onClick={toggleEdit}
             >

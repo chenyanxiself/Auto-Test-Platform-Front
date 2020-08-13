@@ -1,0 +1,32 @@
+.project-case-card {
+    .project-case-card-title {
+        .project-case-card-title-select-method {
+            width: 80px;
+        }
+
+        // .project-case-card-title-select-suite {
+        //     width      : 120px;
+        //     margin-left: 10px;
+        // }
+
+        .project-case-card-title-input {
+            width : 150px;
+            margin: 0 10px;
+        }
+    }
+
+    .project-case-card-body-table {
+        height: 100%;
+        .project-case-card-body-table-action {
+            button {
+                margin-left: 10px;
+            }
+        }
+    }
+}
+.project-api-case-cell{
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import './projectCaseModal.scss'
+import './projectApiCaseModal.scss'
 import {Input, Form, Select, Button, Tabs, message, Spin} from 'antd'
 import Host from './Host'
 import ReactJson from 'react-json-view'
@@ -9,13 +9,16 @@ import {singleCaseDebug} from '../../api/index'
 
 const {TabPane} = Tabs;
 
-class ProjectCaseModal extends Component {
+class ProjectApiCaseModal extends Component {
     constructor(props) {
         super(props);
         this.formRef = React.createRef()
         this.initValue = this.props.initValue
         this.state = {
             responseResult: null,
+            responseTime: 0,
+            responseStatus: 0,
+            responseAssert:undefined,
             isWaitingRes: false
         }
     }
@@ -25,7 +28,12 @@ class ProjectCaseModal extends Component {
         let res = await singleCaseDebug(value)
         this.setState({isWaitingRes: false})
         if (res.status === 1) {
-            this.setState({responseResult: getJsonDataFromStr(res.data)})
+            this.setState({
+                responseResult: getJsonDataFromStr(res.data.response),
+                responseStatus: res.data.status,
+                responseTime: res.data.time,
+                responseAssert:res.data.assert
+            })
         } else {
             message.warning(res.error)
         }
@@ -50,6 +58,40 @@ class ProjectCaseModal extends Component {
             return Promise.reject('必填')
         }
     }
+    getExtra = () => {
+        let styleAssert = {marginLeft: 8, marginRight: 20}
+        let styleStatus = {marginLeft: 8, marginRight: 20}
+        let styleTime = {marginLeft: 8, marginRight: 8}
+        const status = this.state.responseStatus.toString()
+        if (status.startsWith('4')||status.startsWith('5')) {
+            styleStatus.color = 'red'
+            styleTime.color = 'red'
+        } else {
+            styleStatus.color = '#00CC00'
+            styleTime.color = '#00CC00'
+        }
+        var assertText
+        if (this.state.responseAssert===1){
+            assertText='pass'
+            styleAssert.color='#00CC00'
+        }else if (this.state.responseAssert===0){
+            assertText='error'
+            styleAssert.color='red'
+        }else {
+            assertText=''
+        }
+        return (
+            <span>
+                Assert:
+                <span style={styleAssert}>{assertText}</span>
+                Status:
+                <span style={styleStatus}>{this.state.responseStatus}</span>
+                Time:
+                <span style={styleTime}>{this.state.responseTime}</span>
+                ms
+            </span>
+        )
+    }
 
     render() {
         const formItemLayout = {
@@ -57,7 +99,7 @@ class ProjectCaseModal extends Component {
                 span: 4
             },
             wrapperCol: {
-                span: 15
+                span: 17
             },
         }
         return (
@@ -92,7 +134,7 @@ class ProjectCaseModal extends Component {
                             label='请求方式'
                             rules={[{required: true, message: '必填'}]}
                             wrapperCol={{
-                                span: 6
+                                span: 7
                             }}
                         >
                             <Select
@@ -144,7 +186,7 @@ class ProjectCaseModal extends Component {
                 </div>
                 <div className='project-case-body-right'>
                     <span>响应结果:</span>
-                    <Tabs defaultActiveKey="1">
+                    <Tabs defaultActiveKey="1" tabBarExtraContent={this.getExtra()}>
                         <TabPane tab="Rows" key="1">
                             <Spin
                                 spinning={this.state.isWaitingRes}
@@ -168,7 +210,7 @@ class ProjectCaseModal extends Component {
                                     overflowY: 'scroll'
                                 }}>
                                     <ReactJson
-                                        src={this.state.responseResult?this.state.responseResult:undefined}
+                                        src={this.state.responseResult ? this.state.responseResult : undefined}
                                         name={false}
                                         displayDataTypes={false}
                                         displayObjectSize={false}
@@ -183,4 +225,4 @@ class ProjectCaseModal extends Component {
     }
 }
 
-export default ProjectCaseModal;
+export default ProjectApiCaseModal;

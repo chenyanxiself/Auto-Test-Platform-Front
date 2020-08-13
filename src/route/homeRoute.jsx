@@ -1,4 +1,5 @@
 import Project from '../pages/project/Project'
+import ProjectApiCase from '../pages/project/ProjectApiCase'
 import ProjectCase from '../pages/project/ProjectCase'
 import ProjectSuite from '../pages/project/ProjectSuite'
 import ProjectOverview from '../pages/project/ProjectOverview'
@@ -19,6 +20,11 @@ export default [
         path:'/project/:id/case',
         exact:true,
         component:ProjectCase
+    },
+    {
+        path:'/project/:id/apiCase',
+        exact:true,
+        component:ProjectApiCase
     },
     {
         path:'/project/:id/testSuite',

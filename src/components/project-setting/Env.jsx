@@ -218,7 +218,7 @@ class Env extends React.Component {
                     onCancel={() => this.setState({isModalVisible: false})}
                     title='新增环境'
                     destroyOnClose={true}
-                    centered={true}
+                    // centered={true}
                     footer={false}
                 >
                     <Form
