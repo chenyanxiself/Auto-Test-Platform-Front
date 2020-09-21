@@ -19,6 +19,9 @@ class Home extends Component {
             .then(res => {
                 this.props.setCurrentUser(res.data)
             })
+            .catch(_=>{
+                this.props.history.push('/login')
+            })
     }
     render() {
         return (
